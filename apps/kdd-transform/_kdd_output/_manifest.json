@@ -1,0 +1,304 @@
+{
+  "source": "Tareas e incidencias comunes.docx",
+  "generated": "2026-07-08T13:00:00Z",
+  "domain": "Operations & Market Data Management (Typhoon Alta Equity Platform)",
+  "summary": "KDD decomposition of Typhoon equity and derivatives instrument setup workflows, including data extraction, autoclose configuration, database registration, and market curve synchronization procedures.",
+  "artifacts": [
+    {
+      "id": "ARCH-KYUW-009",
+      "title": "Typhoon Instrument Setup Subsystem",
+      "layer": "architecture",
+      "file": "architecture/ARCH-KYUW-009-instrument-setup-subsystem.md",
+      "confidence": "high",
+      "description": "System architecture for instrument lifecycle: JBPM ingestion, data extraction, autoclose configuration, Ans registry, Mx3 sync"
+    },
+    {
+      "id": "DOM-KYUW-003",
+      "title": "Equity Instrument Classification Rules",
+      "layer": "domain",
+      "file": "domain/DOM-KYUW-003-equity-classification.md",
+      "confidence": "high",
+      "description": "Business rules for equity instruments: Murex Label suffix-based pricing category, provider priority (REFINITIV→BLOOMBERG→DATALICENSE)"
+    },
+    {
+      "id": "DOM-KYUW-004",
+      "title": "Futures & Options Instrument Rules",
+      "layer": "domain",
+      "file": "domain/DOM-KYUW-004-futures-options.md",
+      "confidence": "high",
+      "description": "Business rules for derivatives: Type-based routing (OPTIONS→archive, FUTURES→setup), BLOOMBERG-only provider, maturity handling"
+    },
+    {
+      "id": "DOM-KYUW-005",
+      "title": "Data Synchronization Category Taxonomy",
+      "layer": "domain",
+      "file": "domain/DOM-KYUW-005-sync-taxonomy.md",
+      "confidence": "medium",
+      "description": "Market curve categories (BASKET/INDEX/EQUITY SMILE/VOLATILITY, REPO_MARGIN) for CLOSE_IPV and IPV_TOTEM synchronization"
+    },
+    {
+      "id": "PROD-SETUP-001",
+      "title": "Equity Instrument Setup Journey",
+      "layer": "product",
+      "file": "product/PROD-SETUP-001-equity-journey.md",
+      "confidence": "high",
+      "description": "Complete user journey: email receipt → JBPM access → data extraction → autoclose config → Ans registration → confirmation"
+    },
+    {
+      "id": "PROD-SETUP-002",
+      "title": "Futures & Options Setup Journey",
+      "layer": "product",
+      "file": "product/PROD-SETUP-002-futures-journey.md",
+      "confidence": "high",
+      "description": "Simplified derivatives journey: type routing (OPTIONS archive, FUTURES setup), autoclose config (BLOOMBERG only), optional sync"
+    },
+    {
+      "id": "FEAT-AUTOCLOSE-001",
+      "title": "Provider-Rule-Formula Engine for Autoclose",
+      "layer": "feature",
+      "file": "feature/FEAT-AUTOCLOSE-001-provider-rule-formula.md",
+      "confidence": "high",
+      "description": "Functional interface for market data provider config: select provider + rule + formula, test against live data, save"
+    },
+    {
+      "id": "FEAT-SYNC-001",
+      "title": "Mx3 Volatility & Repo Synchronization",
+      "layer": "feature",
+      "file": "feature/FEAT-SYNC-001-volatility-repo-sync.md",
+      "confidence": "medium",
+      "description": "Daily market curve refresh: CLOSE_IPV snapshot, 7 categories, one-at-a-time UI workflow, PROCESSING→timestamp status"
+    },
+    {
+      "id": "FEAT-SYNC-002",
+      "title": "IPV TOTEM Synchronization with Date Range",
+      "layer": "feature",
+      "file": "feature/FEAT-SYNC-002-totem-sync.md",
+      "confidence": "medium",
+      "description": "Historical month-end data capture: IPV_TOTEM snapshot, Pasta Date parameter, date range filtering, dual Mx3+Ans monitoring"
+    },
+    {
+      "id": "DOC-KYUW-002",
+      "title": "Equity Setup Standard Operating Procedure",
+      "layer": "documentation",
+      "file": "documentation/DOC-KYUW-002-equity-sop.md",
+      "confidence": "high",
+      "description": "Step-by-step runbook for equity setup (6 stages): email → JBPM → data extract → autoclose → database → confirmation"
+    },
+    {
+      "id": "DOC-KYUW-003",
+      "title": "Futures & Options Setup Standard Operating Procedure",
+      "layer": "documentation",
+      "file": "documentation/DOC-KYUW-003-futures-sop.md",
+      "confidence": "high",
+      "description": "Step-by-step runbook for derivatives: type routing, simplified autoclose (BLOOMBERG), optional sync, error handling"
+    },
+    {
+      "id": "DOC-KYUW-004",
+      "title": "Synchronization Management Runbook",
+      "layer": "documentation",
+      "file": "documentation/DOC-KYUW-004-sync-runbook.md",
+      "confidence": "medium",
+      "description": "Operational guide for market curve sync: daily (CLOSE_IPV) and month-end (IPV_TOTEM) workflows, status polling, troubleshooting"
+    },
+    {
+      "id": "WRK-SPEC-001",
+      "title": "Instrument Setup Request Triage",
+      "layer": "work-spec",
+      "file": "work/WRK-SPEC-001-request-triage.md",
+      "confidence": "medium",
+      "description": "Problem statement and proposed solution: type-based request routing (OPTION/FUTURE/EQUITY) to appropriate handlers"
+    },
+    {
+      "id": "WRK-TASK-001",
+      "title": "Equity Instrument Data Extraction",
+      "layer": "work-task",
+      "file": "work/WRK-TASK-001-equity-data-extraction.md",
+      "confidence": "high",
+      "description": "Atomic task: extract 7 data fields from JBPM (ISIN, Market, Murex Label, Currency, Reference Price, Reuters RIC, Bloomberg ID)"
+    },
+    {
+      "id": "WRK-TASK-002",
+      "title": "Autoclose Provider Fallback Logic",
+      "layer": "work-task",
+      "file": "work/WRK-TASK-002-autoclose-fallback.md",
+      "confidence": "high",
+      "description": "Atomic task: configure autoclose with provider fallback (equities: REFINITIV→BLOOMBERG→DATALICENSE; futures: BLOOMBERG only)"
+    }
+  ],
+  "cross_references": [
+    {
+      "from": "ARCH-KYUW-009",
+      "to": "PROD-SETUP-001",
+      "relation": "implements-via",
+      "reason": "Equity setup journey operationalizes instrument setup subsystem"
+    },
+    {
+      "from": "ARCH-KYUW-009",
+      "to": "PROD-SETUP-002",
+      "relation": "implements-via",
+      "reason": "Futures setup journey operationalizes instrument setup subsystem (simplified)"
+    },
+    {
+      "from": "PROD-SETUP-001",
+      "to": "DOM-KYUW-003",
+      "relation": "constrained-by",
+      "reason": "Equity journey enforces classification rules (INDEX_PRICE vs EQUITY_PRICE)"
+    },
+    {
+      "from": "PROD-SETUP-001",
+      "to": "FEAT-AUTOCLOSE-001",
+      "relation": "uses-data-from",
+      "reason": "Equity journey Stage 3 uses autoclose engine for provider/rule/formula config"
+    },
+    {
+      "from": "PROD-SETUP-002",
+      "to": "DOM-KYUW-004",
+      "relation": "constrained-by",
+      "reason": "Futures journey enforces type routing and BLOOMBERG-only provider rules"
+    },
+    {
+      "from": "PROD-SETUP-002",
+      "to": "FEAT-AUTOCLOSE-001",
+      "relation": "uses-data-from",
+      "reason": "Futures journey Stage 3 uses autoclose engine (BLOOMBERG variant)"
+    },
+    {
+      "from": "FEAT-AUTOCLOSE-001",
+      "to": "DOM-KYUW-003",
+      "relation": "implements",
+      "reason": "Autoclose engine enforces equity classification rules (suffix-based category)"
+    },
+    {
+      "from": "FEAT-AUTOCLOSE-001",
+      "to": "DOM-KYUW-004",
+      "relation": "implements",
+      "reason": "Autoclose engine enforces futures rules (BLOOMBERG-only, no fallback)"
+    },
+    {
+      "from": "FEAT-SYNC-001",
+      "to": "DOM-KYUW-005",
+      "relation": "uses-data-from",
+      "reason": "Volatility/repo sync uses category taxonomy for CLOSE_IPV"
+    },
+    {
+      "from": "FEAT-SYNC-002",
+      "to": "DOM-KYUW-005",
+      "relation": "uses-data-from",
+      "reason": "TOTEM sync uses category taxonomy with Pasta Date parameter"
+    },
+    {
+      "from": "DOC-KYUW-002",
+      "to": "PROD-SETUP-001",
+      "relation": "operationalizes",
+      "reason": "Equity SOP provides step-by-step instructions for equity journey"
+    },
+    {
+      "from": "DOC-KYUW-003",
+      "to": "PROD-SETUP-002",
+      "relation": "operationalizes",
+      "reason": "Futures SOP provides step-by-step instructions for derivatives journey"
+    },
+    {
+      "from": "DOC-KYUW-004",
+      "to": "FEAT-SYNC-001",
+      "relation": "operationalizes",
+      "reason": "Sync runbook provides UI steps for CLOSE_IPV synchronization"
+    },
+    {
+      "from": "DOC-KYUW-004",
+      "to": "FEAT-SYNC-002",
+      "relation": "operationalizes",
+      "reason": "Sync runbook provides UI steps for IPV_TOTEM synchronization"
+    },
+    {
+      "from": "WRK-SPEC-001",
+      "to": "PROD-SETUP-001",
+      "relation": "enables",
+      "reason": "Triage spec routes requests to correct handler (equity journey)"
+    },
+    {
+      "from": "WRK-SPEC-001",
+      "to": "PROD-SETUP-002",
+      "relation": "enables",
+      "reason": "Triage spec routes requests to correct handler (futures journey)"
+    },
+    {
+      "from": "WRK-TASK-001",
+      "to": "PROD-SETUP-001",
+      "relation": "activates",
+      "reason": "Equity data extraction is Stage 2 of equity journey"
+    },
+    {
+      "from": "WRK-TASK-001",
+      "to": "DOC-KYUW-002",
+      "relation": "implements",
+      "reason": "Work task operationalizes Part 2 of equity SOP (data extraction)"
+    },
+    {
+      "from": "WRK-TASK-002",
+      "to": "FEAT-AUTOCLOSE-001",
+      "relation": "activates",
+      "reason": "Autoclose fallback task implements feature functional interface"
+    },
+    {
+      "from": "WRK-TASK-002",
+      "to": "DOM-KYUW-003",
+      "relation": "constrained-by",
+      "reason": "Fallback logic for equities (REFINITIV→BLOOMBERG→DATALICENSE) enforces equity classification rules"
+    },
+    {
+      "from": "WRK-TASK-002",
+      "to": "DOM-KYUW-004",
+      "relation": "constrained-by",
+      "reason": "Fallback logic for futures (BLOOMBERG only) enforces futures rules"
+    },
+    {
+      "from": "WRK-TASK-002",
+      "to": "DOC-KYUW-002",
+      "relation": "implements",
+      "reason": "Autoclose fallback task operationalizes Part 3 of equity SOP"
+    },
+    {
+      "from": "WRK-TASK-002",
+      "to": "DOC-KYUW-003",
+      "relation": "implements",
+      "reason": "Autoclose fallback task operationalizes Part 3 of futures SOP"
+    }
+  ],
+  "statistics": {
+    "total_artifacts": 14,
+    "by_layer": {
+      "architecture": 1,
+      "domain": 3,
+      "product": 2,
+      "feature": 3,
+      "documentation": 3,
+      "work-spec": 1,
+      "work-task": 2
+    },
+    "confidence_distribution": {
+      "high": 9,
+      "medium": 5,
+      "low": 0
+    }
+  },
+  "layers_covered": [
+    "architecture",
+    "domain",
+    "product",
+    "feature",
+    "documentation",
+    "work-spec",
+    "work-task"
+  ],
+  "key_workflows": [
+    "Equity Instrument Setup (4-stage: Extract → Autoclose → Database → Confirm)",
+    "Futures Instrument Setup (3-stage: Extract → Autoclose → Confirm, BLOOMBERG only)",
+    "Options Handling (Archive, no setup)",
+    "Daily Market Curve Sync (CLOSE_IPV, 7 categories, one-at-a-time)",
+    "Month-End Historical Sync (IPV_TOTEM, Pasta Date, date range)"
+  ],
+  "output_path": "_kdd_output/",
+  "manifest_version": "0.1.0"
+}
+

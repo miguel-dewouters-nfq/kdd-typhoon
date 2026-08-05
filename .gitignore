@@ -1,0 +1,12 @@
+# Temporales de Office
+~$*
+~WRL*.tmp
+
+# ZIPs de descarga
+*.zip
+
+# OS
+Thumbs.db
+.DS_Store
+/.github/
+/.idea/
